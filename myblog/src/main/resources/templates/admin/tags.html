@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+  <title>分类管理</title>
+</head>
+<body>
+
+<!--导航栏-->
+<nav th:replace="_fragments :: admin_menu(3)"></nav>
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+  <!--中间内容-->
+  <div  class="m-padded-tb-big">
+    <div class="ui container">
+      <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+        <i class="close icon"></i>
+        <div class="" th:text="${message}" >提示：操作成功！</div>
+      </div>
+      <table class="ui compact teal table">
+        <thead>
+          <tr align="center">
+            <th>ID</th>
+            <th>名称</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr align="center" th:each="tag,iterStat : ${page.content}">
+            <td th:text="${iterStat.count + page.number * 10}">1</td>
+            <td th:text="${tag.tagName}">我的故事</td>
+            <td>
+              <a href="#" th:href="@{/admin/tags/input/{id}(id=${tag.id})}" class="ui mini teal basic button">编辑</a>
+              <a href="#" th:href="@{/admin/tags/delete/{id}(id=${tag.id})}" onclick="return confirm('确定要删除该标签吗？三思啊! 删了可就没了！')" class="ui mini red basic button">删除</a>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="6" >
+              <div class="ui inverted divided stackable grid">
+                <div class="three wide column" align="center">
+                  <a class="item" th:href="@{/admin/tags(page=${page.number}-1)}" th:unless="${page.first}">上一页</a>
+                </div>
+
+                <div class="ten wide column" align="center">
+                  <p>第 <span th:text="${page.number + 1}"></span> 页，共 <span th:text="${page.totalPages}"></span> 页，共有 <span th:text="${page.totalElements}"></span> 个分类</p>
+                </div>
+
+                <div class="three wide column" align="center">
+                  <a class="item" th:href="@{/admin/tags(page=${page.number} + 1)}" th:unless="${page.last}">下一页</a>
+                </div>
+              </div>
+              <div align="center">
+              <a href="#" th:href="@{/admin/tags/input}">
+                <button type="button" class="ui teal button m-mobile-wide m-margin-top" > <i class="pencil icon"></i>新增</button>
+              </a>
+              </div>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <br>
+  <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<footer th:replace="_fragments :: footer"></footer>
+<!--运行时间统计-->
+<div th:replace="_fragments :: script"></div>
+  <script>
+
+      // $('#newblog-container').load(/*[[@{/footer/newblog}]]*/"/footer/newblog");
+
+
+    $('.menu.toggle').click(function () {
+      $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+      on : 'hover'
+    });
+
+    //消息提示关闭初始化
+    $('.message .close')
+      .on('click', function () {
+        $(this)
+          .closest('.message')
+          .transition('fade');
+      });
+
+  </script>
+</body>
+</html>

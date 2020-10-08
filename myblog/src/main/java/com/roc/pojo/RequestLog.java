@@ -1,4 +1,4 @@
-package com.roc.pojp;
+package com.roc.pojo;
 
 import java.util.Arrays;
 import java.util.Objects;

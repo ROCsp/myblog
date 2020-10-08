@@ -1,6 +1,6 @@
 package com.roc.aspect;
 
-import com.roc.pojp.RequestLog;
+import com.roc.pojo.RequestLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
