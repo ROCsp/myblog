@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,7 +59,7 @@ public class TagController {
      */
     @PostMapping("/tags")
     public String tags(Tag tag, RedirectAttributes attributes){
-        if (tag == null || tag.getTagName() == ""){
+        if (tag == null || tag.getTagName().trim().length() == 0){
             attributes.addFlashAttribute("message","请输入标签名称");
             return "redirect:/admin/tags/input";
         }

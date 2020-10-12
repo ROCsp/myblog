@@ -3,6 +3,7 @@ package com.roc.pojo;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,6 +29,9 @@ public class User {
 
     @OneToMany(targetEntity = Blog.class,mappedBy = "user",cascade = CascadeType.REMOVE)
     private Set<Blog> blogs = new HashSet<>();
+
+    @OneToMany(targetEntity = FriendLinks.class,cascade = CascadeType.PERSIST,mappedBy = "user")
+    private List<FriendLinks> friendLinks;
 
     public User() {
     }
@@ -110,6 +114,14 @@ public class User {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public List<FriendLinks> getFriendLinks() {
+        return friendLinks;
+    }
+
+    public void setFriendLinks(List<FriendLinks> friendLinks) {
+        this.friendLinks = friendLinks;
     }
 
     @Override

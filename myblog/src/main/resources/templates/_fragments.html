@@ -20,7 +20,7 @@
     <script type="text/javascript" src="../static/lib/music/js/zplayer.min.js" th:src="@{/lib/music/js/zplayer.min.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <link rel="stylesheet" href="../static/lib/picture/css/jkresponsivegallery.css" th:href="@{/lib/picture/css/jkresponsivegallery.css}">
-    <link rel="stylesheet" href="../static/lib/editormd/css/editormd.min.css" th:href="@{/lib/editormd/css/editormd.min.css}">
+    <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css" th:href="@{/lib/editormd/css/editormd.min.css}">
 
 </head>
 <body>
@@ -68,8 +68,8 @@
             <div class="right m-item m-mobile-hide menu">
                 <div class="ui dropdown  item">
                     <div class="text">
-                        <img class="ui avatar image" src="../static/images/me.jpg" th:src="@{/images/me.jpg}">
-                        <span>oneStar</span>
+                        <img class="ui avatar image" src="../static/images/me.jpg" th:src="@{${session.user.avatar}}">
+                        <span th:text="${session.user.nickName}">oneStar</span>
                     </div>
                     <i class="dropdown icon"></i>
                     <div class="menu">

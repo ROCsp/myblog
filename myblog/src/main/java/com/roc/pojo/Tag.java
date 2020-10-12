@@ -1,7 +1,9 @@
 package com.roc.pojo;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,17 +21,17 @@ public class Tag {
     private Long id;
     private String tagName;
 
-    @ManyToMany(targetEntity = Blog.class,mappedBy = "tags")
-    private Set<Blog> blogs = new HashSet<>();
+    @ManyToMany(mappedBy = "tags")
+    private List<Blog> blogs = new ArrayList<>();
 
     public Tag() {
     }
 
-    public Set<Blog> getBlogs() {
+    public List<Blog> getBlogs() {
         return blogs;
     }
 
-    public void setBlogs(Set<Blog> blogs) {
+    public void setBlogs(List<Blog> blogs) {
         this.blogs = blogs;
     }
 

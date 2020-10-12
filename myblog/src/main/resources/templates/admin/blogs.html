@@ -8,25 +8,17 @@
 <!--导航栏-->
 <nav th:replace="_fragments :: admin_menu(1)"></nav>
 
-<div class="m-padded-tb-hugex">
-  <div class="ui attached pointing menu">
-    <div class="ui container">
-      <div class="right menu">
-        <a href="#" class=" item">发布</a>
-        <a href="#" class="teal active item">列表</a>
-      </div>
-    </div>
-  </div>
-  </div>
 
+  <br>
+  <br>
   <br>
   <br>
   <br>
 
   <!--中间内容-->
-  <div  class="">
+  <div  class="m-container-small m-padded-tb-big">
     <div class="ui container">
-      <div  class="ui secondary segment form">
+      <div class="ui secondary segment form">
         <input type="hidden" name="page" >
         <div class="inline fields">
           <div class="field">
@@ -35,53 +27,51 @@
           <div class="field">
             <div class="ui labeled action input">
               <div class="ui type selection dropdown">
-                <input type="hidden" name="typeId">
+                <input type="hidden" name="typeId" >
                 <i class="dropdown icon"></i>
                 <div class="default text">分类</div>
                 <div class="menu">
-                  <div class="item" data-value="1">我的故事</div>
+                  <div class="item" data-value="1" th:each="type : ${types}" th:data-value="${type.id}" th:text="${type.typeName}">我的故事</div>
                 </div>
               </div>
               <button id="clear-btn" class="ui compact button">clear</button>
             </div>
 
           </div>
-          <!--<div class="field">-->
-            <!--<div class="ui checkbox">-->
-              <!--<input type="checkbox" id="recommend" name="recommend">-->
-              <!--<label for="recommend">推荐</label>-->
-            <!--</div>-->
-          <!--</div>-->
           <div class="field">
-            <button  type="button" id="search-btn" class="ui mini teal basic button"><i class="search icon"></i>搜索</button>
+            <button  type="button" id="search-btn" class="ui mini teal basic button" ><i class="search icon"></i>搜索</button>
           </div>
         </div>
       </div>
       <div id="table-container">
-        <table class="ui compact teal table">
+        <table class="ui compact teal table" th:fragment="blogList">
           <thead>
           <tr align="center">
             <th>ID</th>
             <th>标题</th>
             <th>类型</th>
+            <th>分类</th>
             <th>推荐</th>
             <th>状态</th>
+            <th>发布时间</th>
             <th>更新时间</th>
             <th>操作</th>
           </tr>
           </thead>
           <tbody>
-          <tr align="center">
-            <td>1</td>
-            <td>大圣，此去欲何?</td>
-            <td>我的故事</td>
-            <td>是</td>
-            <td>草稿</td>
-            <td>2020-01-02 05:20</td>
+          <tr align="center" th:each="blog,iterStat : ${page.content}">
+            <td th:text="${iterStat.count + page.number * 10}">1</td>
+            <td th:text="${blog.title}">大圣，此去欲何?</td>
+            <td th:text="${blog.mold}">大圣，此去欲何?</td>
+            <td th:text="${blog.type.typeName}">我的故事</td>
+            <td th:text="${blog.recommend ? '是' : '否'}">是</td>
+            <td th:text="${blog.published ? '发布' : '草稿'}">草稿</td>
+            <td th:text="${#dates.format(blog.createTime,'yyyy-MM-dd HH:mm:ss')}">2020-01-02 05:20</td>
+            <td th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd HH:mm:ss')}">2020-01-02 05:20</td>
             <td>
               <!--th:href="@{/admin/types/{id}/input(id=${type.id})}"-->
-              <a href="#" class="ui mini teal basic button">编辑</a>
-              <a href="#" onclick="return confirm('确定要删除该文章吗？三思啊! 删了可就没了！')" class="ui mini red basic button">删除</a>
+              <a href="#" th:href="@{/admin/blogs/input/{id}(id=${blog.id})}" class="ui mini teal basic button">编辑</a>
+              <a href="#" th:href="@{/admin/blogs/delete/{id}(id=${blog.id})}" onclick="return confirm('确定要删除该文章吗？三思啊! 删了可就没了！')" class="ui mini red basic button">删除</a>
             </td>
           </tr>
           </tbody>
@@ -89,20 +79,20 @@
           <tr>
             <th colspan="7">
               <div class="ui inverted divided stackable grid">
-                <div class="three wide column" align="center">
-                  <a class="item">上一页</a>
+                <div class="three wide column" align="center" th:if="${page.totalPages}>1">
+                  <a class="item" onclick="page(this)" th:attr="data-page=${page.number}-1" th:unless="${page.first}">上一页</a>
                 </div>
 
                 <div class="ten wide column" align="center">
-                  <p>第 <span ></span> 页，共 <span></span> 页，有 <span></span> 篇文章</p>
+                  <p>第 <span th:text="${page.number + 1}"></span> 页，共 <span th:text="${page.totalPages}"></span> 页，有 <span th:text="${page.totalElements}"></span> 篇文章</p>
                 </div>
 
-                <div class="three wide column" align="center">
-                  <a class="item">下一页</a>
+                <div class="three wide column" align="center" th:if="${page.totalPages}>1">
+                  <a class="item" onclick="page(this)" th:attr="data-page=${page.number}+1" th:unless="${page.last}">下一页</a>
                 </div>
               </div>
               <div align="center">
-                <a href="#">
+                <a href="#" th:href="@{/admin/blogs/input}">
                   <button type="button" class="ui teal button m-mobile-wide m-margin-top"><i class="pencil icon"></i>新增</button>
                 </a>
               </div>
@@ -111,7 +101,7 @@
           </tfoot>
         </table>
 
-        <div class="ui success message">
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
           <i class="close icon"></i>
           <div class="">提示：操作成功！</div>
         </div>
@@ -166,17 +156,16 @@
     }
 
     $("#search-btn").click(function () {
-      $("[name='page']").val(0);
+      // $("[name='page']").val(0);
       loaddata();
     });
-    function loaddata() {
-      $("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search",{
-        title : $("[name='title']").val(),
-        typeId : $("[name='typeId']").val(),
-        page : $("[name='page']").val()
-      });
-    }
-
+      function loaddata() {
+        $("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search",{
+          title : $("[name='title']").val(),
+          typeId : $("[name='typeId']").val(),
+          page : $("[name='page']").val()
+        });
+      }
   </script>
 </body>
 </html>

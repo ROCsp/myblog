@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("tagService")
@@ -46,7 +47,29 @@ public class TagServiceImpl implements TagService {
         return tagDao.findAll();
     }
 
+    @Override
+    public List<Tag> listTag(String ids) {
+        return  tagDao.findAllById(convertToArray(ids));
 
+    }
+
+    public List<Long> convertToArray(String str){
+        List<Long> list = new ArrayList<>();
+        if (str != null && !"".equals(str)) {
+            String[] strings = str.split(",");
+            for (int i = 0; i < strings.length; i++) {
+                list.add(new Long(strings[i]));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 更新标签
+     * @param id
+     * @param tag
+     * @return
+     */
     @Override
     @Transactional
     public Tag updateTag(Long id, Tag tag) {
@@ -58,6 +81,10 @@ public class TagServiceImpl implements TagService {
         return tagDao.save(t);
     }
 
+    /**
+     * 删除标签
+     * @param id
+     */
     @Override
     @Transactional
     public void deleteTag(Long id) {

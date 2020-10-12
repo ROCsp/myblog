@@ -44,7 +44,7 @@
           <tr>
             <th colspan="6" >
               <div class="ui inverted divided stackable grid">
-                <div class="three wide column" align="center">
+                <div class="three wide column" align="center" th:if="${page.totalPages}>1">
                   <a class="item" th:href="@{/admin/types(page=${page.number}-1)}" th:unless="${page.first}">上一页</a>
                 </div>
 
@@ -52,7 +52,7 @@
                   <p>第 <span th:text="${page.number + 1}"></span> 页，共 <span th:text="${page.totalPages}"></span> 页，共有 <span th:text="${page.totalElements}"></span> 个分类</p>
                 </div>
 
-                <div class="three wide column" align="center">
+                <div class="three wide column" align="center" th:if="${page.totalPages}>1">
                   <a class="item" th:href="@{/admin/types(page=${page.number} + 1)}" th:unless="${page.last}">下一页</a>
                 </div>
               </div>

@@ -17,6 +17,7 @@ import java.util.*;
  *     recommend            是否推荐
  *     createTime           发布时间
  *     updateTime           修改时间
+ *     mold                 类型（原创，转载，翻译）
  */
 @Entity
 @Table(name = "t_blog")
@@ -34,6 +35,7 @@ public class Blog {
     private boolean commentabled;
     private boolean published;
     private boolean recommend;
+    private String mold;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
     @Temporal(TemporalType.TIMESTAMP)
@@ -42,14 +44,17 @@ public class Blog {
     @ManyToOne(targetEntity = Type.class)
     private Type type;
 
-    @ManyToMany(targetEntity = Tag.class,cascade = CascadeType.PERSIST)
-    private Set<Tag> tags = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    private List<Tag> tags = new ArrayList<>();
 
     @ManyToOne(targetEntity = User.class)
     private User user;
 
     @OneToMany(targetEntity = Comment.class,cascade = CascadeType.REMOVE,mappedBy = "blog")
     private List<Comment> comments = new ArrayList<>();
+
+    @Transient
+    private String tagIds;
 
     public Blog() {
     }
@@ -70,11 +75,11 @@ public class Blog {
         this.user = user;
     }
 
-    public Set<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
@@ -182,6 +187,44 @@ public class Blog {
         this.updateTime = updateTime;
     }
 
+    public String getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(String tagIds) {
+        this.tagIds = tagIds;
+    }
+
+    public String getMold() {
+        return mold;
+    }
+
+    public void setMold(String mold) {
+        this.mold = mold;
+    }
+
+    public void init(){
+        this.tagIds = tagsToIds(this.getTags());
+    }
+
+    private String tagsToIds(List<Tag> tags){
+        if (!tags.isEmpty()){
+            StringBuffer sb = new StringBuffer();
+            boolean flag = false;
+            for (Tag tag : tags){
+                if (flag){
+                    sb.append(",");
+                }else {
+                    flag = true;
+                }
+                sb.append(tag.getId());
+            }
+            return sb.toString();
+        }else {
+            return tagIds;
+        }
+    }
+
     @Override
     public String toString() {
         return "Blog{" +
@@ -195,8 +238,14 @@ public class Blog {
                 ", commentabled=" + commentabled +
                 ", published=" + published +
                 ", recommend=" + recommend +
+                ", mold='" + mold + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", type=" + type +
+                ", tags=" + tags +
+                ", user=" + user +
+                ", comments=" + comments +
+                ", tagIds='" + tagIds + '\'' +
                 '}';
     }
 }

@@ -9,47 +9,40 @@
 <nav th:replace="_fragments :: admin_menu(4)"></nav>
 
 
-  <div class="m-padded-tb-hugex">
-  <div class="ui attached pointing menu">
-    <div class="ui container">
-      <div class="right menu">
-        <a href="#" class="item">新增</a>
-        <a href="#" class="teal active item">列表</a>
-      </div>
-    </div>
-  </div>
-  </div>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
 
   <!--中间内容-->
   <div  class="m-padded-tb-big">
     <div class="ui container">
       <!--消息提示-->
-      <div class="ui success message" >
+      <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
         <i class="close icon"></i>
-        <div class="" >提示：恭喜，操作成功！</div>
+        <div class="" th:text="${message}">提示：恭喜，操作成功！</div>
       </div>
-      <table class="ui compact teal table">
+      <table class="ui compact teal table" >
         <thead>
           <tr align="center">
             <th>ID</th>
             <th>博客名称</th>
             <th>博客地址</th>
-            <th>图片地址</th>
             <th>添加时间</th>
             <th>操作</th>
           </tr>
         </thead>
         <tbody>
-          <tr align="center" >
-            <td>1</td>
-            <td>ONESTAR</td>
-            <td>https://onestar.newstar.net.cn/</td>
-            <td>https://onestar.newstar.net.cn/</td>
-            <td>2020-01-02 09:45</td>
-            <!--th:text="${#dates.format(message.createTime,'yyyy-MM-dd HH:mm')}"-->
+          <tr align="center" th:each="friendlink,iterStat : ${page.content}">
+            <td th:text="${iterStat.count + page.number * 10}">1</td>
+            <td th:text="${friendlink.blogName}">ONESTAR</td>
+            <td th:text="${friendlink.blogAddr}">https://onestar.newstar.net.cn/</td>
+            <td th:text="${#dates.format(friendlink.createTime,'yyyy-MM-dd HH:mm')}">2020-01-02 09:45</td>
+            <!--th:text="${#dates.format(friendlink.createTime,'yyyy-MM-dd HH:mm')}"-->
             <td>
-              <a href="#" class="ui mini teal basic button">编辑</a>
-              <a href="#" onclick="return confirm('确定要删除该友链吗？三思啊! 删了可就没了！')" class="ui mini red basic button">删除</a>
+              <a href="#" th:href="@{/admin/friendlinks/input/{id}(id=${friendlink.id})}" class="ui mini teal basic button">编辑</a>
+              <a href="#" th:href="@{/admin/friendlinks/delete/{id}(id=${friendlink.id})}" onclick="return confirm('确定要删除该友链吗？三思啊! 删了可就没了！')" class="ui mini red basic button">删除</a>
             </td>
           </tr>
         </tbody>
@@ -57,21 +50,21 @@
           <tr>
             <th colspan="6" >
               <div class="ui inverted divided stackable grid">
-                <div class="three wide column" align="center">
-                  <a class="item">上一页</a>
+                <div class="three wide column" align="center" th:if="${page.totalPages}>1">
+                  <a class="item" th:href="@{/admin/friendlinks(page=${page.number}-1)}" th:unless="${page.first}">上一页</a>
                 </div>
 
                 <div class="ten wide column" align="center">
-                  <p>第 <span></span> 页，共 <span></span> 页，有 <span></span> 个分类</p>
+                  <p>第 <span th:text="${page.number + 1}"></span> 页，共 <span th:text="${page.totalPages}"></span> 页，有 <span th:text="${page.totalElements}"></span> 个好友链接</p>
                 </div>
 
-                <div class="three wide column" align="center">
-                  <a class="item">下一页</a>
+                <div class="three wide column" align="center" th:if="${page.totalPages}>1">
+                  <a class="item" th:href="@{/admin/friendlinks(page=${page.number}+1)}" th:unless="${page.last}">下一页</a>
                 </div>
               </div>
 
               <div align="center">
-                <a href="#">
+                <a href="#" th:href="@{/admin/friendlinks/input}">
                   <button type="button" class="ui teal button m-mobile-wide m-margin-top"><i class="pencil icon"></i>新增</button>
                 </a>
               </div>
