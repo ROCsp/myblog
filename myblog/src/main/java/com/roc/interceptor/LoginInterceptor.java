@@ -1,4 +1,3 @@
-/*
 package com.roc.interceptor;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -6,11 +5,10 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-*/
 /**
  * 拦截器
  *  对未登录且访问后台管理页面的行为进行拦截
- *//*
+ */
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
@@ -24,4 +22,3 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         return true;
     }
 }
-*/

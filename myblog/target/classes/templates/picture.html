@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="_fragments :: head(~{::title})">
-  <title>钓鱼的猫-照片墙</title>
-    <link href="../static/images/me.jpg" th:href="@{/images/me.jpg}" rel="icon" type="image/x-ico">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
-    <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
-    <link rel="stylesheet" href="../static/lib/picture/css/jkresponsivegallery.css" th:href="@{/lib/picture/css/jkresponsivegallery.css}">
+    <title>钓鱼的猫-照片墙</title>
 </head>
 <body>
 
@@ -27,17 +23,17 @@
 <!--照片墙-->
 <div id="picture-main">
 
-    <article class="thumb">
+    <article class="thumb" th:each="picture : ${pictures}">
         <div class="ma5-gallery">
             <div class="rthumbnail">
-                <a href="../static/images/backimg1.jpg">
-                    <img class="picture-zmki_px" src="../static/images/backimg1.jpg">
+                <a href="../static/images/backimg1.jpg" th:href="@{${picture.link}}">
+                    <img class="picture-zmki_px" src="../static/images/backimg1.jpg" th:src="@{${picture.link}}">
                 </a>
-                <div class="m-picture-text">起风了</div>
+                <div class="m-picture-text" th:text="${picture.pictureName}">起风了</div>
                 <div  class="rcaption">
-                    <div style="font-size: large;">起风了</div>
-                    <div style="font-size: small" class="m-margin-top">2020-02-02 &nbsp;深圳</div>
-                    <p style="font-size: small">我曾难自拔于世界之大，也沉迷于其中梦话</p>
+                    <div style="font-size: large;" th:text="${picture.pictureName}">起风了</div>
+                    <div style="font-size: 16px" class="m-margin-top" th:text="|${#dates.format(picture.time,'yyyy年MM月dd日')} &nbsp; ${picture.addr}|">2020-02-02 &nbsp;深圳</div>
+                    <p style="font-size: 16px" th:text="${picture.description}">我曾难自拔于世界之大，也沉迷于其中梦话</p>
                 </div>
             </div>
         </div>
@@ -46,28 +42,34 @@
 </div>
 
 
+
+<!--置顶图标-->
+<div id="toolbar" class="m-padded-tb-large m-fixed m-right-bottom">
+    <a href="#" class="ui teal icon button"><i class="chevron up icon"></i> </a>
+</div>
+
 <!--底部栏-->
 <footer th:replace="_fragments :: footer"></footer>
 
-
+<!--运行时间统计-->
+<div th:replace="_fragments :: script"></div>
 
 <script src="../static/lib/picture/js/jquery.min.js" th:src="@{/lib/picture/js/jquery.min.js}"></script>
 <script src="../static/lib/picture/js/jkresponsivegallery.js" th:src="@{/lib/picture/js/jkresponsivegallery.js}"></script>
 
-<!--运行时间统计-->
-<div th:replace="_fragments :: script"></div>
+
 <script>
 
-    // $('#newblog-container').load(/*[[@{/footer/newblog}]]*/"/footer/newblog");
+
 
     $(function() {
         $('.rthumbnail').responsivegallery();
     });
 
     $('.menu.toggle').click(function () {
-      $('.m-item').toggleClass('m-mobile-hide');
+        $('.m-item').toggleClass('m-mobile-hide');
     });
 
-  </script>
+</script>
 </body>
 </html>

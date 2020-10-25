@@ -2,6 +2,7 @@ package com.roc.service;
 
 
 import com.roc.pojo.Tag;
+import com.roc.pojo.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -25,5 +26,5 @@ public interface TagService {
 
     void deleteTag(Long id);
 
-
+    List<Tag> listTop(Integer size);
 }

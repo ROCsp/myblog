@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/myblog.iml" filepath="$PROJECT_DIR$/myblog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../structer/structer.iml" filepath="$PROJECT_DIR$/../structer/structer.iml" />
     </modules>
   </component>
 </project>

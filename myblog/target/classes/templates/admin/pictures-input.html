@@ -9,49 +9,48 @@
 <nav th:replace="_fragments :: admin_menu(5)"></nav>
 
 
-  <div class="m-padded-tb-hugex">
-  <div class="ui attached pointing menu">
-    <div class="ui container">
-      <div class="right menu">
-        <a href="#" class="teal active item">新增</a>
-        <a href="#" class="item">列表</a>
-      </div>
-    </div>
-  </div>
-  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
 
   <!--中间内容-->
   <div  class="m-container-small m-padded-tb-massive">
     <div class="ui container">
-      <form action="#" method="post" class="ui form">
-        <input type="hidden" name="id">
+      <form action="#" th:action="*{id}==null?@{/admin/pictures}:@{/admin/pictures/{id}(id=*{id})}" method="post" class="ui form">
+        <input type="hidden" name="id" th:value="*{id}">
         <div class=" field">
           <div class="ui left labeled input m-margin-top">
             <label class="ui teal basic label">图片名称</label>
-            <input type="text" name="picturename" placeholder="图片名称">
+            <input type="text" name="pictureName" placeholder="图片名称" th:value="*{picture.pictureName}">
           </div>
           <div class="ui left labeled input m-margin-top">
-            <label class="ui teal basic label">时间地点</label>
-            <input type="text" name="picturetime" placeholder="时间地点">
+            <label class="ui teal basic label">时间</label>
+            <input type="date" name="time" placeholder="时间" th:value="*{picture.time}">
+          </div>
+          <div class="ui left labeled input m-margin-top">
+            <label class="ui teal basic label">地点</label>
+            <input type="text" name="addr" placeholder="地点" th:value="*{picture.addr}">
           </div>
           <div class="ui left labeled input m-margin-top">
             <label class="ui teal basic label">图片地址</label>
-            <input type="text" name="pictureaddress" placeholder="图片地址">
+            <input type="text" name="link" placeholder="图片地址" th:value="*{picture.link}">
           </div>
           <div class="ui left labeled input m-margin-top">
             <label class="ui teal basic label">图片描述</label>
-            <input type="text" name="picturedescription" placeholder="图片描述">
+            <input type="text" name="description" placeholder="图片描述" th:value="*{picture.description}">
+          </div>
+        </div>
+        <div th:unless="${#strings.isEmpty(message)}">
+          <div class="ui error message"></div>
+          <div class="ui negative message">
+            <i class="close icon"></i>
+            <p th:text="${message}">提交信息不符合规则</p>
           </div>
         </div>
 
-        <div class="ui error message"></div>
-        <!--/*/
-          <div class="ui negative message">
-            <i class="close icon"></i>
-            <div class="header">验证失败</div>
-            <p >提交信息不符合规则</p>
-          </div>
-        /*/-->
+
         <div class="ui right aligned container">
           <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
           <button class="ui teal submit button">提交</button>
@@ -89,7 +88,7 @@
     $('.ui.form').form({
       fields : {
         title : {
-          identifier: 'pictureaddress',
+          identifier: 'link',
           rules: [{
             type : 'empty',
             prompt: '请输入照片地址'

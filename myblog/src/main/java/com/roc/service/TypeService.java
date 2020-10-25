@@ -19,10 +19,12 @@ public interface TypeService {
 
     List<Type> listType();
 
+    List<Type> listTop(Integer size);
 
     Type updateType(Long id,Type type);
 
     void deleteType(Long id);
 
+    Integer findTypeBlogsNum(Long typeId);
 
 }

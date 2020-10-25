@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service("friendLinksService")
 public class FriendLinksServiceImpl implements FriendLinksService {
@@ -54,5 +55,10 @@ public class FriendLinksServiceImpl implements FriendLinksService {
     @Override
     public void delete(Long id) {
         friendLinksDao.deleteById(id);
+    }
+
+    @Override
+    public List<FriendLinks> listFriendLinks() {
+        return friendLinksDao.findAll();
     }
 }

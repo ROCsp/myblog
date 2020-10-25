@@ -24,6 +24,9 @@ public class Tag {
     @ManyToMany(mappedBy = "tags")
     private List<Blog> blogs = new ArrayList<>();
 
+    @Transient
+    private Long publishedBlogNum;
+
     public Tag() {
     }
 
@@ -49,6 +52,14 @@ public class Tag {
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
+    }
+
+    public Long getPublishedBlogNum() {
+        return publishedBlogNum;
+    }
+
+    public void setPublishedBlogNum(Long publishedBlogNum) {
+        this.publishedBlogNum = publishedBlogNum;
     }
 
     @Override

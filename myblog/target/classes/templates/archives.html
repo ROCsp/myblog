@@ -4,48 +4,42 @@
   <title>钓鱼的猫-时间轴</title>
 </head>
 <body>
+<nav th:replace="_fragments :: menu(3)"></nav>
 
-  <!--导航-->
-  <nav th:replace="_fragments :: menu(3)"></nav>
 
 <!--时间轴内容-->
-  <div class="doc-container m-padded-tb-massivex m-opacity" id="doc-container">
-      <th:block >
-        <section class="timeline">
-          <ul>
+<div class="doc-container m-padded-tb-massivex m-opacity" id="doc-container">
+  <th:block >
+    <section class="timeline">
+      <ul>
 
-            <li class="" >
-              <div>
-                <time>2020/01/01</time>
-                <div class="scientist" >
-                    <a href="#" target="_blank">
-                      <h3 class="state" style="text-align:center;font-size: 16px;color: #000;">文章标题</h3>
-                    </a>
-                </div>
-              </div>
-            </li>
+        <li class="" th:each="blog : ${blogs}">
+          <div>
+            <time th:text="${#dates.format(blog.updateTime,'yyyy/MM/dd')}">2020/01/01</time>
+            <div class="scientist" >
+              <a href="#" target="_blank" th:href="@{/blog/{id}(id=${blog.id})}">
+                <h3 class="state" style="text-align:center;font-size: 16px;color: #000;" th:text="${blog.title}">文章标题</h3>
+              </a>
+            </div>
+          </div>
+        </li>
 
-          </ul>
-        </section>
-      </th:block>
-  </div>
-
-
-
-  <!--底部栏-->
-  <footer th:replace="_fragments :: footer"></footer>
+      </ul>
+    </section>
+  </th:block>
+</div>
 
 
-<!--运行时间统计-->
-  <div th:replace="_fragments :: script"></div>
-  <script>
 
-    // $('#newblog-container').load(/*[[@{/footer/newblog}]]*/"/footer/newblog");
+<!--底部栏-->
+<footer th:replace="_fragments :: footer"></footer>
 
-    $('.menu.toggle').click(function () {
-      $('.m-item').toggleClass('m-mobile-hide');
-    });
 
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+  <script src="../static/lib/timeline/timeline.js" th:src="@{/lib/timeline/timeline.js}"></script>
+
+
+<div th:replace="_fragments :: script"></div>
 </body>
 </html>

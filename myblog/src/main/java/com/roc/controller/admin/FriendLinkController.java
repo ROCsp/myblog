@@ -1,6 +1,7 @@
 package com.roc.controller.admin;
 
 import com.roc.pojo.FriendLinks;
+import com.roc.pojo.User;
 import com.roc.service.FriendLinksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/admin")
@@ -37,7 +40,7 @@ public class FriendLinkController {
     }
 
     /**
-     * 跳转添加标签页面
+     * 跳转添加好友链接页面
      * @return
      */
     @GetMapping("/friendlinks/input")
@@ -66,7 +69,7 @@ public class FriendLinkController {
      * @return
      */
     @PostMapping("/friendlinks")
-    public String friends(FriendLinks friendLinks, RedirectAttributes attributes){
+    public String friends(FriendLinks friendLinks, RedirectAttributes attributes, HttpSession session){
         if (friendLinks == null || friendLinks.getBlogName().trim().length() == 0 || friendLinks.getBlogAddr().trim().length() == 0 ){
             attributes.addFlashAttribute("message","请输入博客名称或博客链接");
             return "redirect:/admin/friendlinks/input";
@@ -76,6 +79,8 @@ public class FriendLinkController {
             attributes.addFlashAttribute("message","该链接已存在");
             return "redirect:/admin/friendlinks/input";
         }
+        User user = (User) session.getAttribute("user");
+        friendLinks.setUsers(user);
         FriendLinks friendLinks1 = friendLinksService.addFriendLink(friendLinks);
         if (friendLinks1 == null){
             attributes.addFlashAttribute("message","添加失败");
@@ -84,6 +89,7 @@ public class FriendLinkController {
         attributes.addFlashAttribute("message","添加成功");
         return "redirect:/admin/friendlinks";
     }
+
     @PostMapping("/friendlinks/{id}")
     public String friends(@PathVariable("id") Long id,RedirectAttributes attributes,FriendLinks friendLinks){
         if (friendLinks == null || friendLinks.getBlogName().trim().length() == 0 || friendLinks.getBlogAddr().trim().length() == 0 ){
@@ -112,5 +118,6 @@ public class FriendLinkController {
         friendLinksService.delete(id);
         return "redirect:/admin/friendlinks";
     }
+
 
 }

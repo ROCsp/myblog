@@ -13,6 +13,7 @@ public class FriendLinks {
     private Long id;
     private String blogName;
     private String blogAddr;
+    private String blogAvatar;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
@@ -60,5 +61,13 @@ public class FriendLinks {
 
     public void setUsers(User user) {
         this.user = user;
+    }
+
+    public String getBlogAvatar() {
+        return blogAvatar;
+    }
+
+    public void setBlogAvatar(String blogAvatar) {
+        this.blogAvatar = blogAvatar;
     }
 }

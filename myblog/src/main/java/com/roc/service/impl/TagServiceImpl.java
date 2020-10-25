@@ -1,15 +1,19 @@
 package com.roc.service.impl;
 
 import com.roc.NotFoundException;
+import com.roc.dao.BlogDao;
 import com.roc.dao.TagDao;
 import com.roc.pojo.Tag;
 import com.roc.pojo.Type;
+import com.roc.service.BlogService;
 import com.roc.service.TagService;
 import javafx.scene.control.TableColumn;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,4 +94,12 @@ public class TagServiceImpl implements TagService {
     public void deleteTag(Long id) {
         tagDao.deleteById(id);
     }
+
+    @Override
+    public List<Tag> listTop(Integer size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "blogs.size");
+        Pageable pageable = PageRequest.of(0, size, sort);
+        return tagDao.findTop(pageable);
+    }
+
 }

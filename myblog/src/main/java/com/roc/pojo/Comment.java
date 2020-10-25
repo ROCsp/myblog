@@ -27,6 +27,7 @@ public class Comment {
     private String email;
     private String content;
     private String avatar;
+    private Boolean admin;
     //指定数据库生成时间类型
     //第一种：@Temporal(TemporalType.DATE)——>实体类会封装成日期“yyyy-MM-dd”的 Date类型。
     //第二种：@Temporal(TemporalType.TIME)——>实体类会封装成时间“hh-MM-ss”的 Date类型。
@@ -39,7 +40,7 @@ public class Comment {
 
     //自关联评论关系
     //父评论
-    @OneToMany(mappedBy = "parentComment")
+    @OneToMany(mappedBy = "parentComment",cascade = CascadeType.REMOVE)
     private List<Comment> replayComments = new ArrayList<>();
     //回复评论
     @ManyToOne
@@ -118,5 +119,14 @@ public class Comment {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
 }

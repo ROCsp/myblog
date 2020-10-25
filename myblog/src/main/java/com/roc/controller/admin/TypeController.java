@@ -58,7 +58,7 @@ public class TypeController {
      */
     @PostMapping("/types")
     public String types(Type type, RedirectAttributes attributes){
-        if (type == null || type.getTypeName() == ""){
+        if (type == null || type.getTypeName().trim().length() == 0){
             attributes.addFlashAttribute("message","请输入分类名称");
             return "redirect:/admin/types/input";
         }

@@ -24,6 +24,9 @@ public class Type {
     @OneToMany(targetEntity = Blog.class,mappedBy = "type")
     private Set<Blog> blogs = new HashSet<>();
 
+    @Transient
+    private Integer publishedBlogNum;
+
     public Type() {
     }
 
@@ -49,6 +52,14 @@ public class Type {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public Integer getPublishedBlogNum() {
+        return publishedBlogNum;
+    }
+
+    public void setPublishedBlogNum(Integer publishedBlogNum) {
+        this.publishedBlogNum = publishedBlogNum;
     }
 
     @Override

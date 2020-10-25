@@ -28,6 +28,10 @@
             <label class="ui teal basic label">博客地址</label>
             <input type="text" name="blogAddr" placeholder="博客地址" th:value="*{blogAddr}">
           </div>
+          <div class="ui left labeled input m-margin-top">
+            <label class="ui teal basic label">博客头像</label>
+            <input type="text" name="blogAvatar" placeholder="博客头像地址" th:value="*{blogAvatar}">
+          </div>
         </div>
         <div th:unless="${#strings.isEmpty(message)}">
           <div class="ui error message" ></div>

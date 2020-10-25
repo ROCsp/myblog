@@ -36,6 +36,7 @@ public class Blog {
     private boolean published;
     private boolean recommend;
     private String mold;
+    private String description;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
     @Temporal(TemporalType.TIMESTAMP)
@@ -50,11 +51,14 @@ public class Blog {
     @ManyToOne(targetEntity = User.class)
     private User user;
 
-    @OneToMany(targetEntity = Comment.class,cascade = CascadeType.REMOVE,mappedBy = "blog")
+    @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "blog")
     private List<Comment> comments = new ArrayList<>();
 
     @Transient
     private String tagIds;
+
+    @Transient
+    private Long tagId;
 
     public Blog() {
     }
@@ -207,6 +211,14 @@ public class Blog {
         this.tagIds = tagsToIds(this.getTags());
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     private String tagsToIds(List<Tag> tags){
         if (!tags.isEmpty()){
             StringBuffer sb = new StringBuffer();
@@ -223,6 +235,14 @@ public class Blog {
         }else {
             return tagIds;
         }
+    }
+
+    public Long getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(Long tagId) {
+        this.tagId = tagId;
     }
 
     @Override
@@ -248,4 +268,6 @@ public class Blog {
                 ", tagIds='" + tagIds + '\'' +
                 '}';
     }
+
+
 }
